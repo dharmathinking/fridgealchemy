@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FridgeAlchemy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #2C4A2E;
+    --moss: #4A6741;
+    --sage: #8FAF7E;
+    --cream: #F7F3EC;
+    --parchment: #EDE8DF;
+    --bark: #5C4033;
+    --ink: #1E1E1E;
+    --muted: #6B6459;
+    --terracotta: #C4623A;
+    --terracotta-light: #E8927A;
+    --limestone: #F2EDE4;
+    --aegean: #2B5F7A;
+    --aegean-light: #4A8FAD;
+    --sand: #D4B896;
+    --olive-med: #7A8C45;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(247, 243, 236, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(44,74,46,0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--forest);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--forest); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    background: var(--forest);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(143,175,126,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 20%, rgba(92,64,51,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: rgba(247,243,236,0.65);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid rgba(143,175,126,0.5);
+    color: var(--sage);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .hero-cta:hover {
+    background: rgba(143,175,126,0.1);
+    border-color: var(--sage);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(247,243,236,0.4);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(247,243,236,0.4), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  section { padding: 6rem 2rem; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+  .container-narrow { max-width: 740px; margin: 0 auto; }
+
+  /* MANIFESTO */
+  .manifesto {
+    background: var(--cream);
+    padding: 7rem 2rem;
+  }
+
+  .manifesto-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    line-height: 1.65;
+    color: var(--forest);
+    font-style: italic;
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 1.5rem;
+    font-weight: 400;
+  }
+
+  .manifesto-attr {
+    text-align: center;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--parchment);
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: var(--forest);
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--sage);
+    margin: 1.8rem 0;
+  }
+
+  .divider-terracotta { background: var(--terracotta); }
+
+  .about-text p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.3rem;
+    line-height: 1.9;
+  }
+
+  .about-text p strong {
+    color: var(--forest);
+    font-weight: 500;
+  }
+
+  .about-sig {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .about-sig-line {
+    width: 30px;
+    height: 1px;
+    background: var(--sage);
+  }
+
+  .about-sig-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+  }
+
+  .about-aside {
+    padding: 2.5rem;
+    background: var(--cream);
+    border-top: 3px solid var(--forest);
+  }
+
+  .about-aside h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--forest);
+    font-weight: 400;
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+
+  .about-aside p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  /* PILLARS */
+  .pillars { background: var(--forest); }
+
+  .pillars .section-label { color: var(--sage); }
+  .pillars .section-title { color: var(--cream); }
+
+  .pillars-intro {
+    color: rgba(247,243,236,0.6);
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin-bottom: 3.5rem;
+    line-height: 1.9;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2px;
+  }
+
+  .pillar {
+    background: rgba(255,255,255,0.04);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+
+  .pillar:hover { background: rgba(255,255,255,0.08); }
+
+  .pillar-num {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: rgba(143,175,126,0.5);
+    margin-bottom: 1.2rem;
+  }
+
+  .pillar-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+  }
+
+  .pillar-desc {
+    font-size: 0.88rem;
+    color: rgba(247,243,236,0.55);
+    line-height: 1.85;
+  }
+
+  .pillar-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    border-bottom: 1px solid rgba(143,175,126,0.3);
+    padding-bottom: 2px;
+  }
+
+  .pillar-free .pillar-tag { color: var(--sage); }
+
+  /* RETREATS */
+  .retreats { background: var(--limestone); }
+  .retreats .section-label { color: var(--terracotta); }
+  .retreats .section-title { color: var(--forest); }
+
+  .retreats-intro {
+    max-width: 640px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.95;
+    margin-bottom: 3rem;
+  }
+
+  .retreat-places {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 3rem;
+  }
+
+  .retreat-place {
+    background: white;
+    padding: 2rem;
+  }
+
+  .retreat-place h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 0.2rem;
+  }
+
+  .retreat-place .place-where {
+    font-size: 0.78rem;
+    color: var(--terracotta);
+    margin-bottom: 0.9rem;
+  }
+
+  .retreat-place p {
+    font-size: 0.88rem;
+    color: #6A5E52;
+    line-height: 1.8;
+  }
+
+  .retreats-interest {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(44,74,46,0.15);
+    padding-top: 2.5rem;
+  }
+
+  .retreats-interest p {
+    flex: 1 1 320px;
+    max-width: 520px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.85;
+  }
+
+  .btn-interest {
+    display: inline-block;
+    padding: 0.95rem 2.4rem;
+    background: var(--terracotta);
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+
+  .btn-interest:hover,
+  .btn-interest:focus-visible { background: var(--bark); }
+
+  /* COMMUNITY */
+  .community { background: var(--parchment); }
+
+  .community-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .community-text p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.9;
+  }
+
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .activity {
+    background: var(--cream);
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .activity-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+  .activity h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--forest);
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .activity p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .activity-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* BECOME */
+  .become {
+    background: var(--bark);
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .become .section-label { color: var(--terracotta-light); }
+  .become .section-title { color: var(--cream); max-width: 600px; margin: 0 auto 1.2rem; }
+
+  .become-intro {
+    color: rgba(247,243,236,0.65);
+    max-width: 580px;
+    margin: 0 auto 3.5rem;
+    font-size: 0.95rem;
+    line-height: 1.95;
+  }
+
+  .become-principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 3rem;
+    text-align: left;
+  }
+
+  .become-principle {
+    background: rgba(255,255,255,0.05);
+    padding: 2rem;
+  }
+
+  .become-principle h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--terracotta-light);
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+  }
+
+  .become-principle p {
+    font-size: 0.85rem;
+    color: rgba(247,243,236,0.55);
+    line-height: 1.75;
+  }
+
+  .become-cta {
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    border: 1px solid rgba(247,243,236,0.3);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .become-cta:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(247,243,236,0.6);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 4rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.82rem;
+    color: rgba(247,243,236,0.38);
+    line-height: 1.75;
+    max-width: 240px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    font-size: 0.82rem;
+    color: rgba(247,243,236,0.45);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--cream); }
+
+  .footer-location {
+    font-size: 0.78rem;
+    color: rgba(247,243,236,0.3);
+    line-height: 1.9;
+    text-align: right;
+  }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-inner,
+    .community-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .retreat-places,
+    .become-principles { grid-template-columns: 1fr; }
+    footer { flex-direction: column; }
+    .footer-location { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">FridgeAlchemy</a>
+  <ul class="nav-links">
+    <li><a href="#about">The idea</a></li>
+    <li><a href="#pillars">What we do</a></li>
+    <li><a href="#retreats">Retreats</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#become">Become an Alchemist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Monmouthshire · Wherever you are</p>
+  <h1 class="hero-title">What's in<br>the <em>fridge?</em></h1>
+  <p class="hero-subtitle">Not a restaurant. Not a cookery school. A different way of thinking about food — and what happens when people gather around it.</p>
+  <a href="#about" class="hero-cta">The idea</a>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <p class="manifesto-quote reveal">
+    "You don't need a recipe for every occasion. You need curiosity, a well-kept larder, and the confidence that what's in your fridge right now is enough to make something worth eating."
+  </p>
+  <p class="manifesto-attr reveal">The FridgeAlchemy philosophy</p>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <span class="section-label reveal">Where this came from</span>
+        <h2 class="section-title reveal">An experienced cook.<br>No chef's hat.</h2>
+        <div class="divider"></div>
+        <div class="about-text reveal">
+          <p>FridgeAlchemy didn't start as a business idea. It started as a question — <strong>what's in the fridge?</strong> — asked on a Saturday afternoon when dinner hadn't been planned and the week's leftovers were looking interesting. A bit of this from Tuesday, something from last night, half a thing that hadn't made it to the dog yet.</p>
+          <p>My son Jack, who grew up eating this way, told me recently that he never thought about food any other way — that everything on a plate was always just different ingredients to him, not a finished thing to be received. That's what twenty years of a family kitchen does. And it's what FridgeAlchemy is trying to share.</p>
+          <p>No Michelin ambitions. No formal training. Twenty-one years running a consultancy, a lifetime fell running and foraging in the Welsh Borders, and the conviction that the landscape around us holds everything we need to eat well.</p>
+          <div class="about-sig">
+            <div class="about-sig-line"></div>
+            <span class="about-sig-text">Between Abergavenny and Raglan, Monmouthshire</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-aside reveal">
+        <h3>What this is actually about</h3>
+        <p>FridgeAlchemy is not a showcase. The food is never the point on its own — it's the thing that makes the conversation happen, that gets people into a kitchen together, that connects what's on the plate to the landscape outside the window.</p>
+        <p>Some evenings guests are invited to send a photo of their fridge and larder before they arrive. The meal is partly built around what they already have at home. That's not a gimmick — it's the whole idea. Food as autobiography. The kitchen as a space for participation, not performance.</p>
+        <p>The community comes first. Everything else follows from that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars" id="pillars">
+  <div class="container">
+    <span class="section-label reveal">Four ways in</span>
+    <h2 class="section-title reveal">Two are free.<br>Two are bookable.<br>All are open.</h2>
+    <p class="pillars-intro reveal">FridgeAlchemy moves across four pillars. Foraging and movement are free, weekly, and for anyone. Kitchen and Retreats are where the venture sustains itself — and where the ideas come to life most fully.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar reveal">
+        <div class="pillar-num">01</div>
+        <p class="pillar-name">Kitchen</p>
+        <p class="pillar-desc">Supper evenings and hands-on workshops from a Monmouthshire kitchen. Guests cook alongside, not in front of. The meal comes from what's available — local, seasonal, honest. Gluten-free throughout.</p>
+        <p class="pillar-desc" style="margin-top:0.8rem;">Before each evening, guests are invited to send three pictures — their fridge, their larder, their view outside. These arrive at the table as a small printed booklet, with questions, space for notes, and the evening's recipes. Something to keep.</p>
+        <span class="pillar-tag">Ticketed · Monmouthshire</span>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">02</div>
+        <p class="pillar-name">Retreats</p>
+        <p class="pillar-desc">Seasonal mountain retreats for small groups, in Wales to begin with and possibly further afield. Real landscapes, food that comes from where you are. Forage, move, cook, eat, rest — in that order. Register your interest below.</p>
+        <span class="pillar-tag">Interest list open · Mountains</span>
+      </div>
+      <div class="pillar pillar-free reveal">
+        <div class="pillar-num">03</div>
+        <p class="pillar-name">Foraging</p>
+        <p class="pillar-desc">Free weekly walks in the Wye Valley and Black Mountains. Find it, identify it, understand what it's for. No booking, no charge — just show up.</p>
+        <span class="pillar-tag">Free · Weekly · No booking</span>
+      </div>
+      <div class="pillar pillar-free reveal">
+        <div class="pillar-num">04</div>
+        <p class="pillar-name">Movement</p>
+        <p class="pillar-desc">Trail runs, fell walks and canicross sessions in the Monmouthshire hills. Movement that earns the meal — and changes how you think about what you eat. All paces welcome.</p>
+        <span class="pillar-tag">Free · Weekly · All welcome</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RETREATS -->
+<section class="retreats" id="retreats">
+  <div class="container">
+    <span class="section-label reveal">Mountain retreats</span>
+    <h2 class="section-title reveal">Mountain retreats,<br>wherever the mountains are.</h2>
+    <div class="divider divider-terracotta"></div>
+    <p class="retreats-intro reveal">A retreat is FridgeAlchemy stretched over several days. Forage in the morning, move through the hills, cook what you find, eat together, rest. We're shaping them for small groups, and the place matters less than the landscape and the people around the table. Nothing is booked yet, and there are no dates or prices. We'd like to hear who's interested first.</p>
+
+    <div class="retreat-places">
+      <div class="retreat-place reveal">
+        <h3>Wales</h3>
+        <p class="place-where">Black Mountains and Wye Valley</p>
+        <p>Close to home, on hills we already run and forage every week. Farm kitchens and local producers on the doorstep.</p>
+      </div>
+      <div class="retreat-place reveal">
+        <h3>Abruzzo, Italy</h3>
+        <p class="place-where">The Maiella mountains</p>
+        <p>Wild, mountainous and food-obsessed, with a small retreat run by friends of ours. Early days, and nothing is fixed.</p>
+      </div>
+      <div class="retreat-place reveal">
+        <h3>Somewhere else?</h3>
+        <p class="place-where">A farmhouse, a hut, a lodge</p>
+        <p>If you know a mountain place that would suit a small group and a shared kitchen, tell us about it.</p>
+      </div>
+    </div>
+
+    <div class="retreats-interest reveal">
+      <p>Register your interest and tell us where and when appeals. There's no obligation. We'll write to you when we have something real to offer.</p>
+      <!-- TODO: replace REPLACE-WITH-YOUR-EMAIL with your real address (or swap for a form link) -->
+      <a class="btn-interest" href="mailto:REPLACE-WITH-YOUR-EMAIL?subject=Retreat%20interest&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20register%20my%20interest%20in%20a%20FridgeAlchemy%20retreat.%0A%0AName%3A%0APlace%20that%20appeals%20(Wales%2C%20Abruzzo%2C%20either%2C%20or%20a%20suggestion)%3A%0AWhen%20suits%20(month%20or%20season)%3A%0AGroup%20size%3A%0A">Register your interest</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community" id="community">
+  <div class="container">
+    <span class="section-label reveal">The community</span>
+    <h2 class="section-title reveal">Come out once.<br>No commitment, no cost.</h2>
+    <div class="community-grid">
+      <div class="community-text reveal">
+        <p>Every week there's something free happening in the hills or hedgerows around Monmouthshire. A forage, a trail run, a wander with purpose. These aren't loss leaders or marketing activities — they're the point.</p>
+        <p>The community that gathers around the free activities is what FridgeAlchemy is made of. Supper evenings and retreats sustain the whole thing financially. That relationship keeps everything honest.</p>
+        <p>Turn up once. See how it feels. There's no obligation attached.</p>
+      </div>
+      <div class="activity-list reveal">
+        <div class="activity">
+          <span class="activity-icon">🌿</span>
+          <div>
+            <h4>Weekly foraging walks</h4>
+            <p>Monmouthshire hedgerows and woodland, guided by season. What we find shapes what gets cooked.</p>
+            <span class="activity-tag">Free · Open to all · Weekly</span>
+          </div>
+        </div>
+        <div class="activity">
+          <span class="activity-icon">🏃</span>
+          <div>
+            <h4>Trail running &amp; walking</h4>
+            <p>Regular routes through the Black Mountains and Wye Valley. All paces, all welcome.</p>
+            <span class="activity-tag">Free · Open to all · Weekly</span>
+          </div>
+        </div>
+        <div class="activity">
+          <span class="activity-icon">🍽️</span>
+          <div>
+            <h4>Supper evenings</h4>
+            <p>Small, intimate evenings in Monmouthshire. Before each one, guests send three pictures — fridge, larder, outside. Those images arrive at the table as a printed booklet: questions to prompt conversation, space for notes, and the evening's recipes to take home. The meal is partly built from what guests already have.</p>
+            <span class="activity-tag">Ticketed · Gluten-free throughout</span>
+          </div>
+        </div>
+        <div class="activity">
+          <span class="activity-icon">🔪</span>
+          <div>
+            <h4>Kitchen workshops</h4>
+            <p>Half-days built around one ingredient, one technique, or one idea. Hands-on — there's no watching from the side.</p>
+            <span class="activity-tag">Ticketed · Gluten-free throughout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BECOME -->
+<section class="become" id="become">
+  <div class="container">
+    <span class="section-label reveal">The FridgeAlchemy Network</span>
+    <h2 class="section-title reveal">Become a FridgeAlchemist</h2>
+    <p class="become-intro reveal">The question — what's in the fridge? — works anywhere. In a kitchen in Monmouthshire, on a hillside somewhere, or at a table in your own home, wherever that is. If the idea resonates with how you already think about food and community, we'd like to help you build it where you are.</p>
+
+    <div class="become-principles">
+      <div class="become-principle reveal">
+        <h4>Your kitchen, your people</h4>
+        <p>FridgeAlchemy events happen in real kitchens — domestic, unhurried, a little imperfect. Everything about how you run yours, including any commercial arrangements, is yours entirely.</p>
+      </div>
+      <div class="become-principle reveal">
+        <h4>Tools, not rules</h4>
+        <p>We'll share what we've learned — event formats, hosting guides, the fridge-and-larder invitation, and the booklet template. That booklet — guests' three pictures, prompt questions, notes space, and the evening's recipes — is one of the most distinctive things FridgeAlchemy does. It travels with the idea.</p>
+      </div>
+      <div class="become-principle reveal">
+        <h4>A community of practice</h4>
+        <p>Connect with others running FridgeAlchemy evenings in different places. Over time, the booklets from different kitchens become a distributed record of how the idea lives in different hands, different landscapes, different larders. That's the network.</p>
+      </div>
+    </div>
+
+    <a href="#" class="become-cta reveal">Tell us where you are →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <p class="footer-brand">FridgeAlchemy</p>
+    <p class="footer-tagline">Real food, honestly made, from where we are. Built in Monmouthshire, carried wherever it's wanted.</p>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#about">The idea</a></li>
+    <li><a href="#pillars">What we do</a></li>
+    <li><a href="#retreats">Retreats</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#become">Become an Alchemist</a></li>
+  </ul>
+  <div class="footer-location">
+    <p>Between Abergavenny and Raglan, Monmouthshire</p>
+    <p style="margin-top:1rem; color:rgba(247,243,236,0.18); font-size:0.7rem;">© 2026 FridgeAlchemy</p>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 55);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
