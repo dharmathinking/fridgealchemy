@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FridgeAlchemy</title>
+<title>Fridgealchemy</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -92,7 +92,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8rem 2rem 4rem;
+    padding: 7rem 2rem 7rem;
     background: var(--forest);
     position: relative;
     overflow: hidden;
@@ -107,26 +107,27 @@
     pointer-events: none;
   }
 
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-title {
+  .hero-logotype {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 10vw, 7.5rem);
+    letter-spacing: 0.06em;
     line-height: 1.05;
     color: var(--cream);
-    margin-bottom: 1.5rem;
-    font-weight: 400;
+    position: relative;
+    padding-bottom: 2rem;
+    margin-bottom: 2.2rem;
   }
 
-  .hero-title em {
-    font-style: italic;
-    color: var(--sage);
+  .hero-logotype::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 40px;
+    height: 1px;
+    background: var(--sage);
+    transform: translateX(-50%);
   }
 
   .hero-subtitle {
@@ -136,23 +137,6 @@
     margin: 0 auto 3rem;
     font-weight: 300;
     line-height: 1.9;
-  }
-
-  .hero-cta {
-    display: inline-block;
-    padding: 0.9rem 2.5rem;
-    border: 1px solid rgba(143,175,126,0.5);
-    color: var(--sage);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: all 0.3s;
-  }
-
-  .hero-cta:hover {
-    background: rgba(143,175,126,0.1);
-    border-color: var(--sage);
   }
 
   .hero-scroll {
@@ -501,6 +485,33 @@
     display: block;
   }
 
+  /* CONVERSATION / WORKSHOPS */
+  .conversation { background: var(--limestone); }
+  .conversation .section-label { color: var(--terracotta); }
+
+  .conv-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 2.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .conv-text p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.3rem;
+    line-height: 1.9;
+  }
+
+  .conv-text p strong {
+    color: var(--forest);
+    font-weight: 500;
+  }
+
+  .conversation .about-aside { background: var(--cream); }
+
   /* BECOME */
   .become {
     background: var(--bark);
@@ -624,7 +635,8 @@
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .about-inner,
-    .community-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .community-grid,
+    .conv-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .retreat-places,
     .become-principles { grid-template-columns: 1fr; }
     footer { flex-direction: column; }
@@ -635,22 +647,21 @@
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">FridgeAlchemy</a>
+  <a href="#" class="nav-logo">fridgeAlchemy</a>
   <ul class="nav-links">
     <li><a href="#about">The idea</a></li>
     <li><a href="#pillars">What we do</a></li>
     <li><a href="#retreats">Retreats</a></li>
     <li><a href="#community">Community</a></li>
+    <li><a href="#conversation">Workshops</a></li>
     <li><a href="#become">Become an Alchemist</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">Monmouthshire · Wherever you are</p>
-  <h1 class="hero-title">What's in<br>the <em>fridge?</em></h1>
+  <h1 class="hero-logotype">fridgeAlchemy</h1>
   <p class="hero-subtitle">Not a restaurant. Not a cookery school. A different way of thinking about food — and what happens when people gather around it.</p>
-  <a href="#about" class="hero-cta">The idea</a>
   <div class="hero-scroll">
     <div class="scroll-line"></div>
     <span>Scroll</span>
@@ -662,7 +673,7 @@
   <p class="manifesto-quote reveal">
     "You don't need a recipe for every occasion. You need curiosity, a well-kept larder, and the confidence that what's in your fridge right now is enough to make something worth eating."
   </p>
-  <p class="manifesto-attr reveal">The FridgeAlchemy philosophy</p>
+  <p class="manifesto-attr reveal">The Fridgealchemy philosophy</p>
 </section>
 
 <!-- ABOUT -->
@@ -674,8 +685,8 @@
         <h2 class="section-title reveal">An experienced cook.<br>No chef's hat.</h2>
         <div class="divider"></div>
         <div class="about-text reveal">
-          <p>FridgeAlchemy didn't start as a business idea. It started as a question — <strong>what's in the fridge?</strong> — asked on a Saturday afternoon when dinner hadn't been planned and the week's leftovers were looking interesting. A bit of this from Tuesday, something from last night, half a thing that hadn't made it to the dog yet.</p>
-          <p>My son Jack, who grew up eating this way, told me recently that he never thought about food any other way — that everything on a plate was always just different ingredients to him, not a finished thing to be received. That's what twenty years of a family kitchen does. And it's what FridgeAlchemy is trying to share.</p>
+          <p>Fridgealchemy didn't start as a business idea. It started as a question — <strong>what's in the fridge?</strong> — asked on a Saturday afternoon when dinner hadn't been planned and the week's leftovers were looking interesting. A bit of this from Tuesday, something from last night, half a thing that hadn't made it to the dog yet.</p>
+          <p>My son Jack, who grew up eating this way, told me recently that he never thought about food any other way — that everything on a plate was always just different ingredients to him, not a finished thing to be received. That's what twenty years of a family kitchen does. And it's what Fridgealchemy is trying to share.</p>
           <p>No Michelin ambitions. No formal training. Twenty-one years running a consultancy, a lifetime fell running and foraging in the Welsh Borders, and the conviction that the landscape around us holds everything we need to eat well.</p>
           <div class="about-sig">
             <div class="about-sig-line"></div>
@@ -685,7 +696,7 @@
       </div>
       <div class="about-aside reveal">
         <h3>What this is actually about</h3>
-        <p>FridgeAlchemy is not a showcase. The food is never the point on its own — it's the thing that makes the conversation happen, that gets people into a kitchen together, that connects what's on the plate to the landscape outside the window.</p>
+        <p>Fridgealchemy is not a showcase. The food is never the point on its own — it's the thing that makes the conversation happen, that gets people into a kitchen together, that connects what's on the plate to the landscape outside the window.</p>
         <p>Some evenings guests are invited to send a photo of their fridge and larder before they arrive. The meal is partly built around what they already have at home. That's not a gimmick — it's the whole idea. Food as autobiography. The kitchen as a space for participation, not performance.</p>
         <p>The community comes first. Everything else follows from that.</p>
       </div>
@@ -698,7 +709,7 @@
   <div class="container">
     <span class="section-label reveal">Four ways in</span>
     <h2 class="section-title reveal">Two are free.<br>Two are bookable.<br>All are open.</h2>
-    <p class="pillars-intro reveal">FridgeAlchemy moves across four pillars. Foraging and movement are free, weekly, and for anyone. Kitchen and Retreats are where the venture sustains itself — and where the ideas come to life most fully.</p>
+    <p class="pillars-intro reveal">Fridgealchemy moves across four pillars. Foraging and movement are free, weekly, and for anyone. Kitchen and Retreats are where the venture sustains itself — and where the ideas come to life most fully.</p>
 
     <div class="pillars-grid">
       <div class="pillar reveal">
@@ -736,7 +747,7 @@
     <span class="section-label reveal">Mountain retreats</span>
     <h2 class="section-title reveal">Mountain retreats,<br>wherever the mountains are.</h2>
     <div class="divider divider-terracotta"></div>
-    <p class="retreats-intro reveal">A retreat is FridgeAlchemy stretched over several days. Forage in the morning, move through the hills, cook what you find, eat together, rest. We're shaping them for small groups, and the place matters less than the landscape and the people around the table. Nothing is booked yet, and there are no dates or prices. We'd like to hear who's interested first.</p>
+    <p class="retreats-intro reveal">A retreat is Fridgealchemy stretched over several days. Forage in the morning, move through the hills, cook what you find, eat together, rest. We're shaping them for small groups, and the place matters less than the landscape and the people around the table. Nothing is booked yet, and there are no dates or prices. We'd like to hear who's interested first.</p>
 
     <div class="retreat-places">
       <div class="retreat-place reveal">
@@ -759,7 +770,7 @@
     <div class="retreats-interest reveal">
       <p>Register your interest and tell us where and when appeals. There's no obligation. We'll write to you when we have something real to offer.</p>
       <!-- TODO: replace REPLACE-WITH-YOUR-EMAIL with your real address (or swap for a form link) -->
-      <a class="btn-interest" href="mailto:REPLACE-WITH-YOUR-EMAIL?subject=Retreat%20interest&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20register%20my%20interest%20in%20a%20FridgeAlchemy%20retreat.%0A%0AName%3A%0APlace%20that%20appeals%20(Wales%2C%20Abruzzo%2C%20either%2C%20or%20a%20suggestion)%3A%0AWhen%20suits%20(month%20or%20season)%3A%0AGroup%20size%3A%0A">Register your interest</a>
+      <a class="btn-interest" href="mailto:REPLACE-WITH-YOUR-EMAIL?subject=Retreat%20interest&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20register%20my%20interest%20in%20a%20Fridgealchemy%20retreat.%0A%0AName%3A%0APlace%20that%20appeals%20(Wales%2C%20Abruzzo%2C%20either%2C%20or%20a%20suggestion)%3A%0AWhen%20suits%20(month%20or%20season)%3A%0AGroup%20size%3A%0A">Register your interest</a>
     </div>
   </div>
 </section>
@@ -772,7 +783,7 @@
     <div class="community-grid">
       <div class="community-text reveal">
         <p>Every week there's something free happening in the hills or hedgerows around Monmouthshire. A forage, a trail run, a wander with purpose. These aren't loss leaders or marketing activities — they're the point.</p>
-        <p>The community that gathers around the free activities is what FridgeAlchemy is made of. Supper evenings and retreats sustain the whole thing financially. That relationship keeps everything honest.</p>
+        <p>The community that gathers around the free activities is what Fridgealchemy is made of. Supper evenings and retreats sustain the whole thing financially. That relationship keeps everything honest.</p>
         <p>Turn up once. See how it feels. There's no obligation attached.</p>
       </div>
       <div class="activity-list reveal">
@@ -813,25 +824,72 @@
   </div>
 </section>
 
+<!-- CONVERSATION / WORKSHOPS -->
+<section class="conversation" id="conversation">
+  <div class="container">
+    <span class="section-label reveal">Beyond the table</span>
+    <h2 class="section-title reveal">Open the fridge door.<br>Step through.</h2>
+    <div class="divider divider-terracotta"></div>
+
+    <div class="conv-inner">
+      <div class="conv-text reveal">
+        <p>Fridgealchemy starts with a simple question &mdash; <strong>what's in the fridge?</strong> &mdash; but it doesn't stop at the fridge door. Look out of the kitchen window: a garden, a hedgerow, a neighbour, a farm down the lane. The fridge is really your way into the food that's close to you, and what you do with it starts a conversation.</p>
+        <p>At a Fridgealchemy table we cook from what's here, and we talk &mdash; about where food comes from, who grows it, what it means in our families, what we'd want to pass on. Everyone has an opinion and nobody needs to be an expert. Over a shared meal, people say things they wouldn't say in a meeting.</p>
+        <p>It isn't a purist philosophy. If you need to buy something from the supermarket, that's fine. It's a direction of travel, not a rulebook. Whatever the setting, there is one communal table, for up to 25 people, with no stage and no audience. There's always enough to start a conversation.</p>
+      </div>
+      <div class="about-aside reveal">
+        <h3>Questions we might start with</h3>
+        <p>What's in your fridge, your larder, and outside your window?</p>
+        <p>Who grows or makes the food you eat &mdash; and do you know their name?</p>
+        <p>What does food mean in your family, and what would you want to keep?</p>
+      </div>
+    </div>
+
+    <div class="retreat-places">
+      <div class="retreat-place reveal">
+        <h3>A supper table</h3>
+        <p class="place-where">Up to 25 people, one table</p>
+        <p>A shared meal built from the fridge, the larder and the view outside the window, with conversation woven through it. In a kitchen, a barn or a pub.</p>
+      </div>
+      <div class="retreat-place reveal">
+        <h3>A kitchen workshop</h3>
+        <p class="place-where">Half a day, hands-on</p>
+        <p>Cooking together around one ingredient, one technique or one idea, and using it to talk about where food comes from and who we want to be around it.</p>
+      </div>
+      <div class="retreat-place reveal">
+        <h3>Facilitation</h3>
+        <p class="place-where">For groups and organisations</p>
+        <p>I design and lead food-led conversations for communities, schools, festivals and teams, shaped around your people and your place.</p>
+      </div>
+    </div>
+
+    <div class="retreats-interest reveal">
+      <p>If you'd like to bring a Fridgealchemy conversation to your community, school or team, I'd be glad to talk it through. There's no obligation.</p>
+      <!-- TODO: replace REPLACE-WITH-YOUR-EMAIL with your real address (or swap for a form link) -->
+      <a class="btn-interest" href="mailto:REPLACE-WITH-YOUR-EMAIL?subject=Workshop%20or%20facilitation%20enquiry&amp;body=Hello%2C%0A%0AI%27d%20like%20to%20talk%20about%20a%20Fridgealchemy%20workshop%20or%20conversation.%0A%0AName%3A%0AGroup%20or%20organisation%3A%0AApproximate%20group%20size%3A%0AWhere%20and%20when%3A%0A">Talk about a workshop</a>
+    </div>
+  </div>
+</section>
+
 <!-- BECOME -->
 <section class="become" id="become">
   <div class="container">
-    <span class="section-label reveal">The FridgeAlchemy Network</span>
-    <h2 class="section-title reveal">Become a FridgeAlchemist</h2>
+    <span class="section-label reveal">The Fridgealchemy Network</span>
+    <h2 class="section-title reveal">Become a Fridgealchemist</h2>
     <p class="become-intro reveal">The question — what's in the fridge? — works anywhere. In a kitchen in Monmouthshire, on a hillside somewhere, or at a table in your own home, wherever that is. If the idea resonates with how you already think about food and community, we'd like to help you build it where you are.</p>
 
     <div class="become-principles">
       <div class="become-principle reveal">
         <h4>Your kitchen, your people</h4>
-        <p>FridgeAlchemy events happen in real kitchens — domestic, unhurried, a little imperfect. Everything about how you run yours, including any commercial arrangements, is yours entirely.</p>
+        <p>Fridgealchemy events happen in real kitchens — domestic, unhurried, a little imperfect. Everything about how you run yours, including any commercial arrangements, is yours entirely.</p>
       </div>
       <div class="become-principle reveal">
         <h4>Tools, not rules</h4>
-        <p>We'll share what we've learned — event formats, hosting guides, the fridge-and-larder invitation, and the booklet template. That booklet — guests' three pictures, prompt questions, notes space, and the evening's recipes — is one of the most distinctive things FridgeAlchemy does. It travels with the idea.</p>
+        <p>We'll share what we've learned — event formats, hosting guides, the fridge-and-larder invitation, and the booklet template. That booklet — guests' three pictures, prompt questions, notes space, and the evening's recipes — is one of the most distinctive things Fridgealchemy does. It travels with the idea.</p>
       </div>
       <div class="become-principle reveal">
         <h4>A community of practice</h4>
-        <p>Connect with others running FridgeAlchemy evenings in different places. Over time, the booklets from different kitchens become a distributed record of how the idea lives in different hands, different landscapes, different larders. That's the network.</p>
+        <p>Connect with others running Fridgealchemy evenings in different places. Over time, the booklets from different kitchens become a distributed record of how the idea lives in different hands, different landscapes, different larders. That's the network.</p>
       </div>
     </div>
 
@@ -842,7 +900,7 @@
 <!-- FOOTER -->
 <footer>
   <div>
-    <p class="footer-brand">FridgeAlchemy</p>
+    <p class="footer-brand">fridgeAlchemy</p>
     <p class="footer-tagline">Real food, honestly made, from where we are. Built in Monmouthshire, carried wherever it's wanted.</p>
   </div>
   <ul class="footer-links">
@@ -850,11 +908,12 @@
     <li><a href="#pillars">What we do</a></li>
     <li><a href="#retreats">Retreats</a></li>
     <li><a href="#community">Community</a></li>
+    <li><a href="#conversation">Workshops</a></li>
     <li><a href="#become">Become an Alchemist</a></li>
   </ul>
   <div class="footer-location">
     <p>Between Abergavenny and Raglan, Monmouthshire</p>
-    <p style="margin-top:1rem; color:rgba(247,243,236,0.18); font-size:0.7rem;">© 2026 FridgeAlchemy</p>
+    <p style="margin-top:1rem; color:rgba(247,243,236,0.18); font-size:0.7rem;">© 2026 Fridgealchemy</p>
   </div>
 </footer>
 
